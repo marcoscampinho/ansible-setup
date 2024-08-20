@@ -1,0 +1,24 @@
+- hosts: all
+  tasks:
+    - name: instalacao e configuracao neovim
+      block:
+        - name: instala neovim
+          ansible.builtin.package:
+            name: neovim
+            state: present
+          become: true
+
+        - name: instala dependencia para o nvchad
+          ansible.builtin.package:
+            name:
+              - ripgrep
+              - clang
+              - unzip
+            state: present
+          become: true
+
+        - name: baixa nvchad do github
+          ansible.builtin.git:
+            repo: https://github.com/NvChad/starter
+            dest: ~/.config/nvim
+            depth: 1
